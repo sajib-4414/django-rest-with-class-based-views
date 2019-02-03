@@ -29,6 +29,9 @@ class BlogPostApiView(mixins.CreateModelMixin, generics.ListAPIView):
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
+    def get_serializer_context(self, *args, **kwargs):
+        return {'request': self.request}
+
 
 
 class BlogPostRudView(generics.RetrieveUpdateDestroyAPIView):
@@ -39,8 +42,8 @@ class BlogPostRudView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):#overriding the contents of query_set
         return BlogPost.objects.all()
 
-    # def get_object(self):
-    #     pk = self.kwargs.get("pk")
-    #     return BlogPost.objects.get(pk=pk)
+    def get_serializer_context(self, *args, **kwargs):
+        return {'request': self.request}
+
 
 

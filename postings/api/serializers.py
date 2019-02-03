@@ -3,16 +3,23 @@ from postings.models import BlogPost
 
 
 class BlogPostSerializer(serializers.ModelSerializer):#looks like forms.modelForm
+    url    = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = BlogPost
         fields = [
-            'pk',
+            'url',
             'user',
             'title',
             'content',
             'timestamp',
         ]
         read_only_fields = ['user']
+
+
+    def get_url(self,obj):
+        #request
+        request = self.context.get('request')
+        return obj.get_api_url(request=request)
 
 
     def validate_title(self,value):

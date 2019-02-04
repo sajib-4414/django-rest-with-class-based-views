@@ -13,7 +13,7 @@ class BlogPostSerializer(serializers.ModelSerializer):#looks like forms.modelFor
             'content',
             'timestamp',
         ]
-        read_only_fields = ['user']
+        read_only_fields = ['id','user']  #These fields need not to be sent in payload
 
 
     def get_url(self,obj):
@@ -25,11 +25,11 @@ class BlogPostSerializer(serializers.ModelSerializer):#looks like forms.modelFor
     def validate_title(self,value):
         qs = BlogPost.objects.filter(title__iexact=value)#including instance
 
-        if self.instance:
-            qs = qs.exists(pk=self.instance.pk)
-
-        if qs.exists():
-            raise serializers.ValidationError("The title has been already used")
+        # if self.instance:
+        #     qs = qs.exists(pk=self.instance.pk)
+        #
+        # if qs.exists():
+        #     raise serializers.ValidationError("The title has been already used")
         return value
 
 
